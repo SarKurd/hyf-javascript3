@@ -95,8 +95,10 @@ function renderLeftSide(data) {
         if(error !== null){
             console.error(error.message);
         } else{
+            console.log("data2");
             console.log(data2);
-            a.setAttribute("href", data2);
+            console.log("data2");
+            a.setAttribute("href", data2.html_url);
             td1.textContent = "Respository: ";
             a.textContent = data2.name;
 
