@@ -1,12 +1,11 @@
-
 "use strict";
 const url = "https://api.github.com/orgs/hackyourfuture/repos";
 createTheStructure();
-fetchJSON(url, (error, data) =>{
-    if(error !== null){
+fetchJSON(url, (error, data) => {
+    if (error !== null) {
         console.error(error.message);
-    } else{
-        renederSelect(data);
+    } else {
+        renderSelect(data);
     }
 });
 
@@ -31,8 +30,8 @@ function fetchJSON(url, cb) {
     xhr.send();
 }
 
-function renederSelect(data){
-    
+function renderSelect(data) {
+
     const select = document.getElementById("select");
     data.forEach(element => {
         const option = createAndAppend("option", select);
@@ -40,22 +39,28 @@ function renederSelect(data){
         option.setAttribute("value", element.url);
         option.innerHTML = element.name;
     });
-    
-    select.addEventListener("change", event =>{
+
+    renderLeftSide(data[0].url);
+    renderRepositories(data[0].url);
+    select.addEventListener("change", event => {
+        console.log("value");
+        console.log(event.target.value);
+        console.log("value");
         renderLeftSide(event.target.value);
-        renderRepositaries(event.target.value);
-      });
+        renderRepositories(event.target.value);
+    });
 }
-function createTheStructure(){
+
+function createTheStructure() {
     const root = document.getElementById("root");
     const header = document.createElement("div");
     header.setAttribute("class", "header");
     root.appendChild(header);
     const label = document.createElement("label");
-    label.setAttribute("class", "select-label");
-    label.textContent = "Repos";
+    label.setAttribute("class", "select_label");
+    label.textContent = "Repositories: ";
     header.appendChild(label);
-    const select = createAndAppend("select", label);
+    const select = createAndAppend("select", header);
     select.setAttribute("id", "select");
 
     const container = createAndAppend("div", root);
@@ -63,22 +68,25 @@ function createTheStructure(){
     const leftSideContainer = createAndAppend("div", container);
     leftSideContainer.setAttribute("class", "leftSideContainer");
     const rightSideContainer = createAndAppend("div", container);
-    rightSideContainer.setAttribute("id", "rightSideContainer");
+    rightSideContainer.setAttribute("class", "rightSideContainer");
+    const h4 = createAndAppend("h4", rightSideContainer);
+    h4.textContent = "Contributors";
     const ul = createAndAppend("ul", rightSideContainer);
     ul.setAttribute("id", "listOfContr");
     const table = createAndAppend("table", leftSideContainer);
     const tBody = createAndAppend("tBody", table);
-    
-    for (let i = 0; i < 7; i+=2) {
+
+    for (let i = 0; i < 7; i += 2) {
         const tr = createAndAppend("tr", tBody);
         const td1 = createAndAppend("td", tr);
-        td1.setAttribute("id", "td" + (i+1));
+        td1.setAttribute("class", "left-data");
+        td1.setAttribute("id", "td" + (i + 1));
         const td2 = createAndAppend("td", tr);
-        td2.setAttribute("id", "td" + (i+2));
+        td2.setAttribute("id", "td" + (i + 2));
     }
     const td2 = document.getElementById("td2");
     const a = createAndAppend("a", td2);
-    a.setAttribute("id","repoNameLink");
+    a.setAttribute("id", "repoNameLink");
 }
 
 function renderLeftSide(data) {
@@ -91,10 +99,10 @@ function renderLeftSide(data) {
     const td8 = document.getElementById("td8");
     const a = document.getElementById("repoNameLink");
 
-    fetchJSON(data, (error, data2) =>{
-        if(error !== null){
+    fetchJSON(data, (error, data2) => {
+        if (error !== null) {
             console.error(error.message);
-        } else{
+        } else {
             console.log("data2");
             console.log(data2);
             console.log("data2");
@@ -110,37 +118,42 @@ function renderLeftSide(data) {
             td8.textContent = data2.updated_at;
         }
     });
-  
+
 
 }
-function renderRepositaries(data){
-    fetchJSON(data, (error, data2) =>{
-        if(error !== null){
+
+function renderRepositories(data) {
+    fetchJSON(data, (error, data2) => {
+        if (error !== null) {
             console.error(error.message);
-        } else{
-            fetchJSON(data2.contributors_url, (error, userData) =>{
-                if(error !== null){
+        } else {
+            fetchJSON(data2.contributors_url, (error, userData) => {
+                if (error !== null) {
                     console.error(error.message);
-                } else{
+                } else {
                     console.log(userData);
-                    const ul  = document.getElementById("listOfContr");
+                    const ul = document.getElementById("listOfContr");
                     ul.innerHTML = "";
                     for (let i = 0; i < userData.length; i++) {
                         const li = createAndAppend("li", ul);
-                        li.textContent = userData[i].login;
-                        console.log(userData[i].login);
+                        //li.textContent = userData[i].login;
                         const img = createAndAppend("img", li);
                         img.setAttribute("src", userData[i].avatar_url);
-                        const span = createAndAppend("span", li);
-                        span.innerHTML = userData[i].contributions;
+                        const span1 = createAndAppend("span", li);
+                        span1.setAttribute("class", "span-login");
+                        span1.innerHTML = userData[i].login;
 
-                        
+                        const span2 = createAndAppend("span", li);
+                        span2.setAttribute("class", "span-contributions");
+                        span2.innerHTML = userData[i].contributions;
+
+
                     }
 
                 }
-        });
+            });
         }
-});
+    });
 }
 
 function createAndAppend(tagName, parent) {
@@ -148,4 +161,3 @@ function createAndAppend(tagName, parent) {
     parent.appendChild(element);
     return element;
 }
-
