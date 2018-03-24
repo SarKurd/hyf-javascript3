@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: Roboto, sans-serif;
 }
 
 * {
@@ -31,15 +32,15 @@ body {
     width: Calc(50% - 10px);
     padding: 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    margin-left: 10px;
+    margin-left: 5px;
     margin-top: 10px;
 }
 
 .rightSideContainer {
     float: right;
-    width: Calc(50% - 20px);
+    width: Calc(50% - 10px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    margin: 10px;
+    margin: 10px 5px 10px 5px;
 }
 
 .left-data {
