@@ -1,8 +1,8 @@
 "use strict";
-/*global View */
+/*global BaseView */
 /* eslint-disable no-unused-vars */
 
-class Contributor extends View {
+class Contributor extends BaseView {
     constructor() {
         super();
     }
@@ -26,15 +26,10 @@ class Contributor extends View {
             ul.innerHTML = "";
             for (let i = 0; i < userData.length; i++) {
                 const li = this.createAndAppend("li", ul);
-                const img = this.createAndAppend("img", li);
-                img.setAttribute("src", userData[i].avatar_url);
-                const span1 = this.createAndAppend("span", li);
-                span1.setAttribute("class", "span-login");
-                span1.innerHTML = userData[i].login;
-
-                const span2 = this.createAndAppend("span", li);
-                span2.setAttribute("class", "span-contributions");
-                span2.innerHTML = userData[i].contributions;
+                const img = this.createAndAppend("img", li, {src : userData[i].avatar_url});
+                const span1 = this.createAndAppend("span", li,{"class": "span-login",  html : userData[i].login});
+                const span2 = this.createAndAppend("span", li,{ "class": "span-contributions", html : userData[i].contributions});
+                
             }
         } catch (err) {
             console.error(err.message);

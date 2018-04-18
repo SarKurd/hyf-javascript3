@@ -1,7 +1,7 @@
 "use strict";
-/*global View */
+/*global BaseView */
 /* eslint-disable no-unused-vars */
-class Repository extends View {
+class Repository extends BaseView {
     constructor(repos) {
         super();
         this.repos = repos;
@@ -10,13 +10,7 @@ class Repository extends View {
     render() {
         const select = document.getElementById("select");
 
-        this.repos.sort((a, b) => {
-            if (a.name.toLowerCase() < b.name.toLowerCase()) {
-                return -1;
-            } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                return 1;
-            }
-        });
+        this.repos.sort((a, b) => a.name.localeCompare(b.name));
 
         this.repos.forEach((repo, index) => {
             this.createAndAppend("option", select, {
